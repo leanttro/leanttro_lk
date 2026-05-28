@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leandro — Candidatura Analista de Sistema e Projetos</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { overflow-x: hidden; max-width: 100%; }
+
+  :root {
+    --roxo: #2B2566;
+    --roxo-medio: #3d3690;
+    --roxo-claro: #f0effe;
+    --roxo-tag: #e8e6fb;
+    --cinza: #f5f5f3;
+    --cinza-medio: #e8e6e0;
+    --cinza-texto: #666;
+    --preto: #1a1a1a;
+    --branco: #ffffff;
+    --verde: #2ecc71;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--branco);
+    color: var(--preto);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--branco);
+    border-bottom: 1px solid var(--cinza-medio);
+    padding: 0 1.25rem;
+    height: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .nav-logo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--preto);
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  .nav-logo span {
+    display: none;
+  }
+
+  .nav-cta {
+    background: var(--roxo);
+    color: var(--branco);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 9px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.2s;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .nav-cta:hover { background: var(--roxo-medio); }
+
+  @media (min-width: 600px) {
+    nav { padding: 0 2rem; height: 64px; }
+    .nav-logo { font-size: 22px; }
+    .nav-logo span { display: inline; color: var(--cinza-texto); font-weight: 400; font-size: 13px; margin-left: 12px; }
+    .nav-cta { font-size: 13px; padding: 10px 22px; }
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--roxo);
+    padding: 120px 2rem 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: 'LUKKA';
+    position: absolute;
+    right: -20px;
+    bottom: -40px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 200px;
+    color: rgba(255,255,255,0.04);
+    letter-spacing: -8px;
+    pointer-events: none;
+    user-select: none;
+    overflow: hidden;
+    max-width: 100%;
+  }
+
+  @media (max-width: 640px) {
+    .hero::after { display: none; }
+  }
+
+  .hero-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+
+
+  .hero h1 {
+    font-family: Arial, sans-serif;
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    font-weight: 900;
+    color: var(--branco);
+    line-height: 1.08;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1px;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.75);
+    max-width: 580px;
+    margin-bottom: 2.5rem;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .hero-sub strong {
+    color: var(--branco);
+    font-weight: 600;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn-branco {
+    background: var(--branco);
+    color: var(--roxo);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-branco:hover {
+    background: var(--roxo-claro);
+  }
+
+  .btn-outline-branco {
+    color: rgba(255,255,255,0.85);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 14px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    transition: all 0.2s;
+  }
+
+  .btn-outline-branco:hover {
+    border-color: rgba(255,255,255,0.7);
+    color: var(--branco);
+  }
+
+  /* NÚMEROS */
+  .numeros {
+    background: var(--cinza);
+    padding: 0;
+  }
+
+  .numeros-grid {
+    max-width: 860px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-left: 1px solid var(--cinza-medio);
+  }
+
+  .numero-item {
+    padding: 2.5rem 1.75rem;
+    border-right: 1px solid var(--cinza-medio);
+    border-bottom: 1px solid var(--cinza-medio);
+    border-top: 1px solid var(--cinza-medio);
+  }
+
+  .numero-val {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--roxo);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+    letter-spacing: -1px;
+  }
+
+  .numero-label {
+    font-size: 13px;
+    color: var(--cinza-texto);
+    line-height: 1.4;
+  }
+
+  .numero-projeto {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--roxo);
+    opacity: 0.5;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  /* SEÇÕES */
+  section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .section-tag {
+    display: inline-block;
+    background: var(--roxo-tag);
+    color: var(--roxo);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 800;
+    color: var(--roxo);
+    margin-bottom: 0.75rem;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+  }
+
+  .section-desc {
+    color: var(--cinza-texto);
+    font-size: 15px;
+    max-width: 500px;
+    margin-bottom: 3rem;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  hr.divisor {
+    border: none;
+    border-top: 1px solid var(--cinza-medio);
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* STACK ACCORDION */
+  .stack-list {
+    display: flex;
+    flex-direction: column;
+    border: 1.5px solid var(--cinza-medio);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .stack-item {
+    border-bottom: 1px solid var(--cinza-medio);
+    background: var(--branco);
+  }
+
+  .stack-item:last-child { border-bottom: none; }
+
+  .stack-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+    gap: 12px;
+  }
+
+  .stack-header:hover { background: var(--cinza); }
+
+  .stack-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+  }
+
+  .stack-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--cinza-medio);
+  }
+
+  .stack-item.match .stack-dot { background: var(--verde); }
+
+  .stack-nome {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--preto);
+  }
+
+  .stack-tipo {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--roxo);
+    color: var(--branco);
+  }
+
+  .stack-item.match .stack-tipo { background: #16a34a; }
+  .stack-item.dif .stack-tipo { background: #0369a1; }
+
+  .stack-chevron {
+    width: 18px;
+    height: 18px;
+    color: var(--cinza-texto);
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+
+  .stack-item.open .stack-chevron { transform: rotate(180deg); }
+
+  .stack-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .stack-item.open .stack-body { max-height: 200px; }
+
+  .stack-body-inner {
+    padding: 0 20px 18px 43px;
+    font-size: 13.5px;
+    color: var(--cinza-texto);
+    line-height: 1.7;
+    border-top: 1px solid var(--cinza-medio);
+    padding-top: 14px;
+    margin: 0 20px;
+  }
+
+  /* PROJETOS */
+  .proj-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .proj-card {
+    background: var(--branco);
+    border: 1.5px solid var(--cinza-medio);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .proj-card:hover {
+    border-color: var(--roxo);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(43,37,102,0.08);
+  }
+
+  .proj-card.destaque {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    background: var(--roxo-claro);
+    border-color: rgba(43,37,102,0.2);
+  }
+
+  .proj-card.destaque:hover {
+    border-color: var(--roxo);
+  }
+
+  .proj-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--roxo);
+    margin-bottom: 0.6rem;
+    opacity: 0.7;
+  }
+
+  .proj-nome {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--roxo);
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.3px;
+  }
+
+  .proj-desc {
+    font-size: 13.5px;
+    color: var(--cinza-texto);
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+
+  .proj-stats {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .proj-stat-val {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--roxo);
+    display: block;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+
+  .proj-stat-label {
+    font-size: 11px;
+    color: var(--cinza-texto);
+    margin-top: 3px;
+  }
+
+  .proj-link {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--roxo);
+    border: 1px solid rgba(43,37,102,0.2);
+    padding: 6px 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .proj-link:hover {
+    background: var(--roxo);
+    color: var(--branco);
+    border-color: var(--roxo);
+  }
+
+  /* SOBRE */
+  .sobre-wrap {
+    background: var(--roxo);
+    padding: 5rem 2rem;
+  }
+
+  .sobre-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .sobre-inner h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 900;
+    color: var(--branco);
+    line-height: 1.12;
+    letter-spacing: -0.5px;
+    margin-bottom: 1.25rem;
+  }
+
+  .sobre-inner p {
+    color: rgba(255,255,255,0.75);
+    font-size: 15px;
+    line-height: 1.75;
+    font-weight: 300;
+    margin-bottom: 0.75rem;
+  }
+
+  .sobre-inner p strong {
+    color: var(--branco);
+    font-weight: 600;
+  }
+
+  .sobre-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 6px;
+  }
+
+  .info-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+  }
+
+  .info-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 3px;
+  }
+
+  .info-val {
+    font-size: 14px;
+    color: var(--branco);
+    font-weight: 400;
+  }
+
+  /* FOOTER CTA */
+  .footer-cta {
+    background: var(--cinza);
+    border-top: 1px solid var(--cinza-medio);
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .footer-cta h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--roxo);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+  }
+
+  .footer-cta p {
+    color: var(--cinza-texto);
+    font-size: 14px;
+    margin-bottom: 1.75rem;
+  }
+
+  footer {
+    background: var(--roxo);
+    text-align: center;
+    padding: 1.25rem 2rem;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .numeros-grid { grid-template-columns: 1fr 1fr; }
+    .proj-grid { grid-template-columns: 1fr; }
+    .proj-card.destaque { grid-template-columns: 1fr; }
+    .sobre-inner { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2rem; }
+  }
+
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .fade-up.vis { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    LEANDRO
+    <span>candidatura · analista de sistema e projetos</span>
+  </div>
+  <a href="mailto:leandroandrade020797@gmail.com?subject=Candidatura — Analista de Sistema e Projetos | Leandro" class="nav-cta">Entrar em contato</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Automação,<br>infraestrutura<br>e resultado real.</h1>
+    <p class="hero-sub">
+      Trabalho com <strong>n8n, Docker, PostgreSQL, APIs REST e DigitalOcean</strong> no dia a dia. Não só como requisito de vaga — como ferramenta de produção, com projetos rodando agora.
+    </p>
+    <div class="hero-actions">
+      <a href="mailto:rh@lukka.com.br?subject=Candidatura — Analista de Sistema e Projetos | Leandro" class="btn-branco">Enviar candidatura</a>
+      <a href="https://www.leanttro.com" target="_blank" class="btn-outline-branco">Ver meu trabalho →</a>
+    </div>
+  </div>
+</div>
+
+<!-- NÚMEROS -->
+<div class="numeros">
+  <div class="numeros-grid">
+    <div class="numero-item">
+      <span class="numero-projeto">feirasderua.com.br</span>
+      <div class="numero-val">328K</div>
+      <div class="numero-label">impressões orgânicas em 5 meses</div>
+    </div>
+    <div class="numero-item">
+      <span class="numero-projeto">feirasderua.com.br</span>
+      <div class="numero-val">8.1K</div>
+      <div class="numero-label">usuários ativos por mês</div>
+    </div>
+    <div class="numero-item">
+      <span class="numero-projeto">guiadorodizio.com.br</span>
+      <div class="numero-val">1 dia</div>
+      <div class="numero-label">para ranquear acima do Reddit</div>
+    </div>
+    <div class="numero-item">
+      <span class="numero-projeto">leanttro.com</span>
+      <div class="numero-val">6+</div>
+      <div class="numero-label">projetos ativos em produção</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divisor">
+
+<!-- STACK -->
+<section class="fade-up">
+  <div class="section-tag">Stack técnica</div>
+  <h2 class="section-title">Match com a vaga.</h2>
+  <p class="section-desc">Clique em cada item para ver como uso na prática.</p>
+
+  <div class="stack-list">
+
+    <div class="stack-item match" onclick="toggle(this)">
+      <div class="stack-header">
+        <div class="stack-left">
+          <span class="stack-dot"></span>
+          <span class="stack-nome">n8n</span>
+          <span class="stack-tipo">Requisito</span>
+        </div>
+        <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="stack-body"><div class="stack-body-inner">Uso n8n como o centro das automações dos meus projetos — captura de leads, notificações, sincronização entre plataformas, fluxos de onboarding. Já criei e vendo automações prontas na Leanttro.</div></div>
+    </div>
+
+    <div class="stack-item match" onclick="toggle(this)">
+      <div class="stack-header">
+        <div class="stack-left">
+          <span class="stack-dot"></span>
+          <span class="stack-nome">APIs REST</span>
+          <span class="stack-tipo">Requisito</span>
+        </div>
+        <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="stack-body"><div class="stack-body-inner">Integro APIs de terceiros no dia a dia: Google, WhatsApp Business, plataformas de pagamento, CRMs. Construo e consumo endpoints REST para conectar sistemas que não conversam nativamente.</div></div>
+    </div>
+
+    <div class="stack-item match" onclick="toggle(this)">
+      <div class="stack-header">
+        <div class="stack-left">
+          <span class="stack-dot"></span>
+          <span class="stack-nome">Docker</span>
+          <span class="stack-tipo">Requisito</span>
+        </div>
+        <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="stack-body"><div class="stack-body-inner">Toda a minha infraestrutura roda em Docker. Gerencio containers com Dokploy e Docker Swarm — 6 projetos simultâneos em produção, cada um com seus serviços isolados.</div></div>
+    </div>
+
+    <div class="stack-item match" onclick="toggle(this)">
+      <div class="stack-header">
+        <div class="stack-left">
+          <span class="stack-dot"></span>
+          <span class="stack-nome">PostgreSQL</span>
+          <span class="stack-tipo">Requisito</span>
+        </div>
+        <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="stack-body"><div class="stack-body-inner">Banco de dados dos meus projetos principais. Estruturo tabelas, escrevo queries, faço backups e gerencio conexões. No Feiras de Rua, todo o catálogo de feiras vive num Postgres containerizado.</div></div>
+    </div>
+
+    <div class="stack-item match" onclick="toggle(this)">
+      <div class="stack-header">
+        <div class="stack-left">
+          <span class="stack-dot"></span>
+          <span class="stack-nome">Webhooks</span>
+          <span class="stack-tipo">Requisito</span>
+        </div>
+        <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="stack-body"><div class="stack-body-inner">Configuro e monitoro webhooks para disparar fluxos automáticos — entrada de lead, pagamento confirmado, formulário enviado. É a cola entre sistemas externos e o n8n.</div></div>
+    </div>
+
+    <div class="stack-item match" onclick="toggle(this)">
+      <div class="stack-header">
+        <div class="stack-left">
+          <span class="stack-dot"></span>
+          <span class="stack-nome">DigitalOcean / VPS</span>
+          <span class="stack-tipo">Requisito</span>
+        </div>
+        <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="stack-body"><div class="stack-body-inner">Hospedo e gerencio minha infraestrutura inteira em Droplets da DigitalOcean. Configuro DNS, SSL, Traefik como proxy reverso e faço manutenção dos servidores sem depender de painel de hospedagem.</div></div>
+    </div>
+
+    <div class="stack-item match dif" onclick="toggle(this)">
+      <div class="stack-header">
+        <div class="stack-left">
+          <span class="stack-dot"></span>
+          <span class="stack-nome">Typebot</span>
+          <span class="stack-tipo">Diferencial</span>
+        </div>
+        <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="stack-body"><div class="stack-body-inner">Uso Typebot para criar chatbots de captura e qualificação de leads — integrado ao n8n via webhook. Já entrego isso como produto na Leanttro para clientes de pequenas empresas.</div></div>
+    </div>
+
+    <div class="stack-item match dif" onclick="toggle(this)">
+      <div class="stack-header">
+        <div class="stack-left">
+          <span class="stack-dot"></span>
+          <span class="stack-nome">IA aplicada</span>
+          <span class="stack-tipo">Diferencial</span>
+        </div>
+        <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="stack-body"><div class="stack-body-inner">Uso IA (GPT, Claude) como parte do fluxo de trabalho — geração de conteúdo automatizada, triagem de dados, assistentes integrados ao n8n. Não é experimento: está em produção nos projetos.</div></div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divisor">
+
+<!-- PROJETOS -->
+<section class="fade-up">
+  <div class="section-tag">Projetos</div>
+  <h2 class="section-title">Trabalho que existe<br>de verdade.</h2>
+  <p class="section-desc">Produtos criados do zero, com automação, banco de dados e infraestrutura própria. Resultado mensurável.</p>
+
+  <div class="proj-grid">
+
+    <a href="https://www.feirasderua.com.br" target="_blank" class="proj-card destaque">
+      <div>
+        <p class="proj-tag">Hub de conteúdo local</p>
+        <p class="proj-nome">Feiras de Rua SP</p>
+        <p class="proj-desc">Hub de feiras livres de São Paulo criado do zero. Automações para curadoria de conteúdo, SEO técnico e banco de dados próprio. Sem anúncio pago, sem equipe.</p>
+        <div class="proj-stats">
+          <div>
+            <span class="proj-stat-val">328K</span>
+            <span class="proj-stat-label">impressões</span>
+          </div>
+          <div>
+            <span class="proj-stat-val">7.4K</span>
+            <span class="proj-stat-label">cliques orgânicos</span>
+          </div>
+          <div>
+            <span class="proj-stat-val">5m</span>
+            <span class="proj-stat-label">desde o zero</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="background:rgba(43,37,102,0.08);border-radius:6px;padding:1rem 1.25rem;">
+          <div style="font-size:11px;color:var(--roxo);font-family:'Montserrat',sans-serif;font-weight:700;margin-bottom:4px;">Stack usada</div>
+          <div style="font-size:13px;color:var(--cinza-texto);line-height:1.6;">n8n · PostgreSQL · Docker · DigitalOcean · APIs REST · Webhooks</div>
+        </div>
+        <div style="background:rgba(43,37,102,0.08);border-radius:6px;padding:1rem 1.25rem;">
+          <div style="font-size:11px;color:var(--roxo);font-family:'Montserrat',sans-serif;font-weight:700;margin-bottom:4px;">Resultado</div>
+          <div style="font-size:13px;color:var(--cinza-texto);line-height:1.6;">Top 10 Google SP sem investimento em mídia paga</div>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://www.guiadorodizio.com.br" target="_blank" class="proj-card">
+      <p class="proj-tag">Hub de nicho · testável agora</p>
+      <p class="proj-nome">Guia do Rodízio SP</p>
+      <p class="proj-desc">559 restaurantes cadastrados em 4 dias. Ranqueou acima do Reddit no Google em menos de 24h do lançamento.</p>
+      <span class="proj-link">Abrir e testar →</span>
+    </a>
+
+    <a href="https://www.leanttro.com" target="_blank" class="proj-card">
+      <p class="proj-tag">Produto próprio</p>
+      <p class="proj-nome">Leanttro</p>
+      <p class="proj-desc">Agência de sites e automações para pequenas empresas. Infra própria com Dokploy, Docker Swarm, PostgreSQL e n8n rodando 6 projetos em simultâneo.</p>
+      <span class="proj-link">Ver site →</span>
+    </a>
+
+  </div>
+</section>
+
+<hr class="divisor">
+
+<!-- FERRAMENTAS PARA O SEGMENTO -->
+<section class="fade-up">
+  <div class="section-tag" style="background:#fff3e0;color:#b45309;">Coincidência ou não?</div>
+  <h2 class="section-title">Antes de me candidatar,<br>eu já construía ferramentas<br>para o seu segmento.</h2>
+  <p class="section-desc">Editores de personalização de produtos e CRM com IA — desenvolvidos para o mercado de brindes e customização. Exatamente o que a Lukka faz.</p>
+
+  <div class="proj-grid">
+
+    <div class="proj-card" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
+      <p class="proj-tag" style="color:#b45309;">Editor web · demo disponível</p>
+      <p class="proj-nome" style="color:#92400e;">Editor de Serigrafia</p>
+      <p class="proj-desc">Ferramenta web para simulação e posicionamento de arte em serigrafia. Faz separação de cores automaticamente via SVG. O cliente sobe a logo, posiciona na peça e exporta o arquivo pronto para produção.</p>
+      <div style="margin:0.75rem 0;padding:10px 14px;background:rgba(180,83,9,0.08);border-radius:6px;font-size:12px;color:#92400e;line-height:1.7;">
+        Acesso restrito · login: <strong>lukka</strong> · senha: <strong>lukka</strong>
+      </div>
+      <a href="https://grafica.leanttro.com/serigrafia" target="_blank" class="proj-link" style="color:#b45309;border-color:rgba(180,83,9,0.3);">Testar o editor →</a>
+    </div>
+
+    <div class="proj-card" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
+      <p class="proj-tag" style="color:#b45309;">Editor web · demo disponível</p>
+      <p class="proj-nome" style="color:#92400e;">Editor de DTF</p>
+      <p class="proj-desc">Editor de arte para impressão DTF (Direct to Film). Posicionamento de estampas, controle de área de impressão e geração de arquivo para a máquina.</p>
+      <div style="margin:0.75rem 0;padding:10px 14px;background:rgba(180,83,9,0.08);border-radius:6px;font-size:12px;color:#92400e;line-height:1.7;">
+        Acesso restrito · login: <strong>lukka</strong> · senha: <strong>lukka</strong>
+      </div>
+      <a href="https://grafica.leanttro.com/dtf" target="_blank" class="proj-link" style="color:#b45309;border-color:rgba(180,83,9,0.3);">Testar o editor →</a>
+    </div>
+
+    <div class="proj-card" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
+      <p class="proj-tag" style="color:#b45309;">Editor web · demo disponível</p>
+      <p class="proj-nome" style="color:#92400e;">Editor de Mouse Pad</p>
+      <p class="proj-desc">Editor online para personalização de mouse pads. Upload de imagem, ajuste de enquadramento, exportação em alta resolução para gráfica.</p>
+      <div style="margin:0.75rem 0;padding:10px 14px;background:rgba(180,83,9,0.08);border-radius:6px;font-size:12px;color:#92400e;line-height:1.7;">
+        Acesso restrito · login: <strong>lukka</strong> · senha: <strong>lukka</strong>
+      </div>
+      <a href="https://grafica.leanttro.com/mousepad" target="_blank" class="proj-link" style="color:#b45309;border-color:rgba(180,83,9,0.3);">Testar o editor →</a>
+    </div>
+
+    <div class="proj-card" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
+      <p class="proj-tag" style="color:#b45309;">Aplicação Python · IA integrada</p>
+      <p class="proj-nome" style="color:#92400e;">CRM + Sniper com IA</p>
+      <p class="proj-desc">CRM próprio com módulo de prospecção inteligente, IA (Groq) para análise de leads, disparo de e-mails automatizados e geração de relatórios em PDF.</p>
+      <span class="proj-link" style="color:#b45309;border-color:rgba(180,83,9,0.3);">Demo sob solicitação</span>
+    </div>
+
+    <div class="proj-card" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
+      <p class="proj-tag" style="color:#b45309;">Streamlit + Groq + PostgreSQL</p>
+      <p class="proj-nome" style="color:#92400e;">Gerador de Conteúdo com IA</p>
+      <p class="proj-desc">Ferramenta interna que gera posts completos de blog a partir de um tema, revisa o conteúdo com IA (Groq), cola a imagem e publica direto no banco PostgreSQL — sem intervenção manual.</p>
+      <span class="proj-link" style="color:#b45309;border-color:rgba(180,83,9,0.3);">Demo sob solicitação</span>
+    </div>
+
+  </div>
+
+  <div style="margin-top:1.5rem;padding:1.25rem 1.5rem;background:var(--roxo-claro);border-radius:8px;border-left:3px solid var(--roxo);">
+    <p style="font-size:13px;color:var(--roxo);font-weight:600;margin-bottom:4px;">Nota sobre os editores</p>
+    <p style="font-size:13px;color:var(--cinza-texto);line-height:1.6;">Os três editores são aplicações web puras — HTML, CSS e JavaScript, sem dependência de backend. Para testar, basta abrir o link. Estão hospedados no meu servidor.</p>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<div class="sobre-wrap">
+  <div class="sobre-inner">
+    <div>
+      <h2>Quem faz isso<br>por dentro.</h2>
+      <p>Sou o Leandro, fundador da Leanttro. Trabalho na interseção entre <strong>automação, infraestrutura e produto</strong> — construindo e mantendo sistemas que funcionam sem supervisão constante.</p>
+      <p>Acredito que a melhor tecnologia é a que <strong>entrega resultado mensurável</strong>. E é exatamente isso que aparece nos números acima.</p>
+      <p>Tenho facilidade com <strong>análise de dados e visualização</strong> — o que me ajuda a transformar métricas em decisões rápidas. Em 2025, concluí <strong>6 cursos no SENAI</strong> para aprofundar a base técnica e manter o conhecimento atualizado.</p>
+    </div>
+    <div class="sobre-info">
+      <div class="info-row">
+        <div class="info-icon" style="font-size:11px;font-weight:700;letter-spacing:-0.5px;">SP</div>
+        <div>
+          <div class="info-label">Localização</div>
+          <div class="info-val">São Paulo — SP<br><span style="font-size:12px;color:rgba(255,255,255,0.5);">Disponível presencialmente em Higienópolis</span></div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon" style="font-size:11px;font-weight:700;">EDU</div>
+        <div>
+          <div class="info-label">Formação</div>
+          <div class="info-val">6 cursos SENAI · 2025<br><span style="font-size:12px;color:rgba(255,255,255,0.5);">Análise de dados e tecnologia</span></div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon" style="font-size:11px;font-weight:700;">PJ</div>
+        <div>
+          <div class="info-label">Disponibilidade</div>
+          <div class="info-val">Imediata · PJ ou CLT</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon" style="font-size:13px;font-weight:700;">@</div>
+        <div>
+          <div class="info-label">Contato</div>
+          <div class="info-val">leandroandrade020797@gmail.com<br><span style="font-size:12px;color:rgba(255,255,255,0.5);">(11) 91332-4827</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER CTA -->
+<div class="footer-cta">
+  <h3>Vamos conversar?</h3>
+  <p>Mande um e-mail ou acesse o meu site para conhecer mais do trabalho.</p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+    <a href="mailto:leandroandrade020797@gmail.com?subject=Candidatura — Analista de Sistema e Projetos | Leandro" class="nav-cta">Enviar candidatura</a>
+    <a href="https://www.leanttro.com" target="_blank" style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;color:var(--roxo);padding:10px 22px;border-radius:4px;border:1.5px solid var(--cinza-medio);text-decoration:none;background:var(--branco);transition:all 0.2s;">Ver leanttro.com →</a>
+  </div>
+</div>
+
+<footer>
+  feito por <a href="https://www.leanttro.com" target="_blank">leanttro.com</a> &nbsp;·&nbsp; candidatura lukka 2026
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  function toggle(el) {
+    el.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
