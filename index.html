@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html, body { overflow-x: hidden; max-width: 100%; }
 
   :root {
@@ -21,10 +20,10 @@
     --preto: #1a1a1a;
     --branco: #ffffff;
     --verde: #2ecc71;
+    --roxo-brilho: #5b52d4;
   }
 
   html { scroll-behavior: smooth; }
-
   body {
     background: var(--branco);
     color: var(--preto);
@@ -33,12 +32,116 @@
     line-height: 1.6;
   }
 
-  /* NAV */
+  /* ===== INTRO OVERLAY ===== */
+  #intro-overlay {
+    position: fixed;
+    inset: 0;
+    background: #2B2566;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  #intro-overlay.done {
+    pointer-events: none;
+    animation: overlayFadeOut 0.7s 0.1s ease forwards;
+  }
+
+  @keyframes overlayFadeOut {
+    to { opacity: 0; transform: scale(1.04); }
+  }
+
+  .intro-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .intro-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    animation: particleFly linear infinite;
+  }
+
+  @keyframes particleFly {
+    0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateY(-20vh) scale(1); opacity: 0; }
+  }
+
+  .intro-logo-wrap {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .intro-logo {
+    width: 160px;
+    height: auto;
+    opacity: 0;
+    filter: brightness(0) invert(1) drop-shadow(0 0 40px rgba(255,255,255,0.5));
+    animation: logoReveal 1.2s 0.4s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+
+  @keyframes logoReveal {
+    0%   { opacity: 0; transform: scale(0.4) rotateY(90deg); filter: brightness(0) invert(1) drop-shadow(0 0 80px rgba(255,255,255,0.9)); }
+    60%  { opacity: 1; transform: scale(1.08) rotateY(-5deg); }
+    80%  { transform: scale(0.97) rotateY(2deg); }
+    100% { opacity: 1; transform: scale(1) rotateY(0deg); filter: brightness(0) invert(1) drop-shadow(0 0 20px rgba(255,255,255,0.3)); }
+  }
+
+  .intro-tagline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    opacity: 0;
+    animation: taglineFade 0.8s 1.4s ease forwards;
+  }
+
+  @keyframes taglineFade {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .intro-bar {
+    width: 0;
+    height: 2px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 2px;
+    animation: barGrow 1s 1.6s ease forwards;
+  }
+
+  @keyframes barGrow {
+    from { width: 0; }
+    to   { width: 120px; }
+  }
+
+  /* ===== PAGE HIDDEN UNTIL INTRO DONE ===== */
+  #page-content {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  #page-content.visible { opacity: 1; }
+
+  /* ===== NAV ===== */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    background: var(--branco);
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--cinza-medio);
     padding: 0 1.25rem;
     height: 56px;
@@ -46,20 +149,39 @@
     justify-content: space-between;
     align-items: center;
     gap: 12px;
+    transition: box-shadow 0.3s;
+  }
+
+  nav.scrolled {
+    box-shadow: 0 4px 24px rgba(43,37,102,0.1);
   }
 
   .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-logo-img {
+    height: 28px;
+    width: auto;
+    opacity: 0.85;
+  }
+
+  .nav-logo-text {
     font-family: 'Montserrat', sans-serif;
     font-weight: 800;
     font-size: 20px;
     color: var(--preto);
     letter-spacing: -0.5px;
     white-space: nowrap;
-    min-width: 0;
   }
 
-  .nav-logo span {
+  .nav-logo-sub {
     display: none;
+    color: var(--cinza-texto);
+    font-weight: 400;
+    font-size: 13px;
   }
 
   .nav-cta {
@@ -71,27 +193,76 @@
     padding: 9px 16px;
     border-radius: 4px;
     text-decoration: none;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
     letter-spacing: 0.02em;
     white-space: nowrap;
     flex-shrink: 0;
   }
 
-  .nav-cta:hover { background: var(--roxo-medio); }
+  .nav-cta:hover {
+    background: var(--roxo-medio);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(43,37,102,0.3);
+  }
 
   @media (min-width: 600px) {
     nav { padding: 0 2rem; height: 64px; }
-    .nav-logo { font-size: 22px; }
-    .nav-logo span { display: inline; color: var(--cinza-texto); font-weight: 400; font-size: 13px; margin-left: 12px; }
+    .nav-logo-text { font-size: 22px; }
+    .nav-logo-sub { display: inline; }
     .nav-cta { font-size: 13px; padding: 10px 22px; }
   }
 
-  /* HERO */
+  /* ===== HERO ===== */
   .hero {
     background: var(--roxo);
     padding: 120px 2rem 80px;
     position: relative;
     overflow: hidden;
+    perspective: 1000px;
+  }
+
+  /* 3D floating grid in hero */
+  .hero-grid-3d {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(600px) rotateX(40deg) scale(1.6) translateY(10%);
+    transform-origin: bottom center;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Floating orbs */
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+    animation: orbFloat ease-in-out infinite;
+  }
+
+  .hero-orb-1 {
+    width: 400px; height: 400px;
+    background: rgba(91,82,212,0.35);
+    top: -100px; right: -80px;
+    animation-duration: 8s;
+    animation-delay: 0s;
+  }
+
+  .hero-orb-2 {
+    width: 300px; height: 300px;
+    background: rgba(167,139,250,0.2);
+    bottom: -50px; left: 30%;
+    animation-duration: 11s;
+    animation-delay: -3s;
+  }
+
+  @keyframes orbFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%       { transform: translateY(-30px) scale(1.05); }
   }
 
   .hero::after {
@@ -110,26 +281,25 @@
     max-width: 100%;
   }
 
-  @media (max-width: 640px) {
-    .hero::after { display: none; }
-  }
+  @media (max-width: 640px) { .hero::after { display: none; } }
 
   .hero-inner {
     max-width: 860px;
     margin: 0 auto;
     position: relative;
+    z-index: 2;
   }
 
-
-
   .hero h1 {
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: clamp(2.2rem, 5.5vw, 4rem);
     font-weight: 900;
     color: var(--branco);
     line-height: 1.08;
     margin-bottom: 1.5rem;
     letter-spacing: -1px;
+    opacity: 0;
+    animation: heroTextIn 0.9s 2.8s cubic-bezier(0.22,1,0.36,1) forwards;
   }
 
   .hero-sub {
@@ -139,11 +309,8 @@
     margin-bottom: 2.5rem;
     line-height: 1.75;
     font-weight: 300;
-  }
-
-  .hero-sub strong {
-    color: var(--branco);
-    font-weight: 600;
+    opacity: 0;
+    animation: heroTextIn 0.9s 3.1s cubic-bezier(0.22,1,0.36,1) forwards;
   }
 
   .hero-actions {
@@ -151,7 +318,16 @@
     gap: 1rem;
     flex-wrap: wrap;
     align-items: center;
+    opacity: 0;
+    animation: heroTextIn 0.9s 3.3s cubic-bezier(0.22,1,0.36,1) forwards;
   }
+
+  @keyframes heroTextIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .hero-sub strong { color: var(--branco); font-weight: 600; }
 
   .btn-branco {
     background: var(--branco);
@@ -164,11 +340,21 @@
     text-decoration: none;
     transition: all 0.2s;
     letter-spacing: 0.02em;
+    position: relative;
+    overflow: hidden;
   }
 
-  .btn-branco:hover {
-    background: var(--roxo-claro);
+  .btn-branco::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.5) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.5s;
   }
+
+  .btn-branco:hover::after { transform: translateX(100%); }
+  .btn-branco:hover { background: var(--roxo-claro); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
 
   .btn-outline-branco {
     color: rgba(255,255,255,0.85);
@@ -182,16 +368,10 @@
     transition: all 0.2s;
   }
 
-  .btn-outline-branco:hover {
-    border-color: rgba(255,255,255,0.7);
-    color: var(--branco);
-  }
+  .btn-outline-branco:hover { border-color: rgba(255,255,255,0.7); color: var(--branco); transform: translateY(-2px); }
 
-  /* NÚMEROS */
-  .numeros {
-    background: var(--cinza);
-    padding: 0;
-  }
+  /* ===== NÚMEROS ===== */
+  .numeros { background: var(--cinza); padding: 0; }
 
   .numeros-grid {
     max-width: 860px;
@@ -206,7 +386,24 @@
     border-right: 1px solid var(--cinza-medio);
     border-bottom: 1px solid var(--cinza-medio);
     border-top: 1px solid var(--cinza-medio);
+    transition: background 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
   }
+
+  .numero-item::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--roxo), var(--roxo-brilho));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .numero-item:hover { background: var(--branco); }
+  .numero-item:hover::before { transform: scaleX(1); }
 
   .numero-val {
     font-family: 'Montserrat', sans-serif;
@@ -216,13 +413,12 @@
     line-height: 1;
     margin-bottom: 0.35rem;
     letter-spacing: -1px;
+    transition: transform 0.3s;
   }
 
-  .numero-label {
-    font-size: 13px;
-    color: var(--cinza-texto);
-    line-height: 1.4;
-  }
+  .numero-item:hover .numero-val { transform: scale(1.05); }
+
+  .numero-label { font-size: 13px; color: var(--cinza-texto); line-height: 1.4; }
 
   .numero-projeto {
     font-family: 'Montserrat', sans-serif;
@@ -236,7 +432,7 @@
     display: block;
   }
 
-  /* SEÇÕES */
+  /* ===== SEÇÕES ===== */
   section {
     max-width: 860px;
     margin: 0 auto;
@@ -283,7 +479,7 @@
     margin: 0 auto;
   }
 
-  /* STACK ACCORDION */
+  /* ===== STACK ACCORDION ===== */
   .stack-list {
     display: flex;
     flex-direction: column;
@@ -295,6 +491,7 @@
   .stack-item {
     border-bottom: 1px solid var(--cinza-medio);
     background: var(--branco);
+    transition: background 0.2s;
   }
 
   .stack-item:last-child { border-bottom: none; }
@@ -312,28 +509,28 @@
 
   .stack-header:hover { background: var(--cinza); }
 
-  .stack-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex: 1;
-  }
+  .stack-left { display: flex; align-items: center; gap: 14px; flex: 1; }
 
   .stack-dot {
-    width: 9px;
-    height: 9px;
+    width: 9px; height: 9px;
     border-radius: 50%;
     flex-shrink: 0;
     background: var(--cinza-medio);
+    transition: box-shadow 0.3s;
   }
 
-  .stack-item.match .stack-dot { background: var(--verde); }
-
-  .stack-nome {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--preto);
+  .stack-item.match .stack-dot {
+    background: var(--verde);
+    box-shadow: 0 0 8px rgba(46,204,113,0.5);
+    animation: dotPulse 2s ease infinite;
   }
+
+  @keyframes dotPulse {
+    0%, 100% { box-shadow: 0 0 6px rgba(46,204,113,0.5); }
+    50%       { box-shadow: 0 0 14px rgba(46,204,113,0.9); }
+  }
+
+  .stack-nome { font-size: 14px; font-weight: 700; color: var(--preto); }
 
   .stack-tipo {
     font-size: 10px;
@@ -347,24 +544,12 @@
   }
 
   .stack-item.match .stack-tipo { background: #16a34a; }
-  .stack-item.dif .stack-tipo { background: #0369a1; }
+  .stack-item.dif .stack-tipo   { background: #0369a1; }
 
-  .stack-chevron {
-    width: 18px;
-    height: 18px;
-    color: var(--cinza-texto);
-    transition: transform 0.25s;
-    flex-shrink: 0;
-  }
-
+  .stack-chevron { width: 18px; height: 18px; color: var(--cinza-texto); transition: transform 0.25s; flex-shrink: 0; }
   .stack-item.open .stack-chevron { transform: rotate(180deg); }
 
-  .stack-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-  }
-
+  .stack-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
   .stack-item.open .stack-body { max-height: 200px; }
 
   .stack-body-inner {
@@ -377,28 +562,37 @@
     margin: 0 20px;
   }
 
-  /* PROJETOS */
-  .proj-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
+  /* ===== PROJETOS ===== */
+  .proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
   .proj-card {
     background: var(--branco);
     border: 1.5px solid var(--cinza-medio);
     border-radius: 8px;
     padding: 2rem;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
     text-decoration: none;
     color: inherit;
     display: block;
+    position: relative;
+    overflow: hidden;
   }
+
+  .proj-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(43,37,102,0.04), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .proj-card:hover::before { opacity: 1; }
 
   .proj-card:hover {
     border-color: var(--roxo);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(43,37,102,0.08);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 40px rgba(43,37,102,0.12), 0 0 0 1px rgba(43,37,102,0.08);
   }
 
   .proj-card.destaque {
@@ -411,82 +605,56 @@
     border-color: rgba(43,37,102,0.2);
   }
 
-  .proj-card.destaque:hover {
-    border-color: var(--roxo);
-  }
+  .proj-card.destaque:hover { border-color: var(--roxo); }
 
-  .proj-tag {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--roxo);
-    margin-bottom: 0.6rem;
-    opacity: 0.7;
-  }
+  .proj-tag { font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: var(--roxo); margin-bottom: 0.6rem; opacity: 0.7; }
+  .proj-nome { font-family: 'Montserrat', sans-serif; font-size: 1.2rem; font-weight: 800; color: var(--roxo); margin-bottom: 0.6rem; letter-spacing: -0.3px; }
+  .proj-desc { font-size: 13.5px; color: var(--cinza-texto); line-height: 1.65; margin-bottom: 1.5rem; }
 
-  .proj-nome {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: var(--roxo);
-    margin-bottom: 0.6rem;
-    letter-spacing: -0.3px;
-  }
+  .proj-stats { display: flex; gap: 2rem; }
+  .proj-stat-val { font-family: 'Montserrat', sans-serif; font-size: 1.6rem; font-weight: 900; color: var(--roxo); display: block; line-height: 1; letter-spacing: -1px; }
+  .proj-stat-label { font-size: 11px; color: var(--cinza-texto); margin-top: 3px; }
 
-  .proj-desc {
-    font-size: 13.5px;
-    color: var(--cinza-texto);
-    line-height: 1.65;
-    margin-bottom: 1.5rem;
-  }
+  .proj-link { display: inline-block; margin-top: 1rem; font-size: 12px; font-weight: 700; color: var(--roxo); border: 1px solid rgba(43,37,102,0.2); padding: 6px 14px; border-radius: 4px; text-decoration: none; transition: all 0.15s; }
+  .proj-link:hover { background: var(--roxo); color: var(--branco); border-color: var(--roxo); }
 
-  .proj-stats {
-    display: flex;
-    gap: 2rem;
-  }
-
-  .proj-stat-val {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 900;
-    color: var(--roxo);
-    display: block;
-    line-height: 1;
-    letter-spacing: -1px;
-  }
-
-  .proj-stat-label {
-    font-size: 11px;
-    color: var(--cinza-texto);
-    margin-top: 3px;
-  }
-
-  .proj-link {
-    display: inline-block;
-    margin-top: 1rem;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--roxo);
-    border: 1px solid rgba(43,37,102,0.2);
-    padding: 6px 14px;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: all 0.15s;
-  }
-
-  .proj-link:hover {
-    background: var(--roxo);
-    color: var(--branco);
-    border-color: var(--roxo);
-  }
-
-  /* SOBRE */
+  /* ===== SOBRE ===== */
   .sobre-wrap {
     background: var(--roxo);
     padding: 5rem 2rem;
+    position: relative;
+    overflow: hidden;
   }
+
+  /* animated 3D mesh behind sobre */
+  .sobre-mesh {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    transform: perspective(400px) rotateX(30deg);
+    transform-origin: top center;
+    opacity: 0.4;
+    pointer-events: none;
+    animation: meshShift 12s ease-in-out infinite;
+  }
+
+  @keyframes meshShift {
+    0%, 100% { background-position: 0 0; }
+    50%       { background-position: 20px 20px; }
+  }
+
+  .sobre-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+
+  .sobre-orb-1 { width: 350px; height: 350px; background: rgba(167,139,250,0.15); top: -80px; right: -60px; animation: orbFloat 9s ease-in-out infinite; }
+  .sobre-orb-2 { width: 250px; height: 250px; background: rgba(91,82,212,0.2); bottom: -60px; left: 10%; animation: orbFloat 13s ease-in-out -5s infinite; }
 
   .sobre-inner {
     max-width: 860px;
@@ -495,7 +663,11 @@
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
+    position: relative;
+    z-index: 2;
   }
+
+  .sobre-text-block {}
 
   .sobre-inner h2 {
     font-family: 'Montserrat', sans-serif;
@@ -507,134 +679,131 @@
     margin-bottom: 1.25rem;
   }
 
-  .sobre-inner p {
-    color: rgba(255,255,255,0.75);
-    font-size: 15px;
-    line-height: 1.75;
-    font-weight: 300;
-    margin-bottom: 0.75rem;
-  }
+  .sobre-inner p { color: rgba(255,255,255,0.75); font-size: 15px; line-height: 1.75; font-weight: 300; margin-bottom: 0.75rem; }
+  .sobre-inner p strong { color: var(--branco); font-weight: 600; }
 
-  .sobre-inner p strong {
-    color: var(--branco);
-    font-weight: 600;
-  }
-
-  .sobre-info {
+  /* FOTO */
+  .sobre-foto-container {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .info-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 16px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 6px;
-  }
-
-  .info-icon {
-    width: 36px;
-    height: 36px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    font-size: 16px;
+    margin-bottom: 1.5rem;
   }
 
-  .info-label {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 3px;
+  .sobre-foto-wrap {
+    position: relative;
+    display: inline-block;
   }
 
-  .info-val {
-    font-size: 14px;
-    color: var(--branco);
-    font-weight: 400;
+  .sobre-foto-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(167,139,250,0.6), rgba(91,82,212,0.3), rgba(255,255,255,0.1));
+    z-index: 0;
+    animation: fotoBorderRotate 4s linear infinite;
   }
 
-  /* FOOTER CTA */
-  .footer-cta {
-    background: var(--cinza);
-    border-top: 1px solid var(--cinza-medio);
-    padding: 4rem 2rem;
-    text-align: center;
+  @keyframes fotoBorderRotate {
+    0%   { filter: hue-rotate(0deg) brightness(1); }
+    50%  { filter: hue-rotate(30deg) brightness(1.2); }
+    100% { filter: hue-rotate(0deg) brightness(1); }
   }
 
-  .footer-cta h3 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: var(--roxo);
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.5px;
+  .sobre-foto {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 16px;
+    display: block;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
   }
 
-  .footer-cta p {
-    color: var(--cinza-texto);
-    font-size: 14px;
-    margin-bottom: 1.75rem;
+  .sobre-foto-wrap:hover .sobre-foto {
+    transform: scale(1.03) translateY(-4px);
   }
 
-  footer {
-    background: var(--roxo);
-    text-align: center;
-    padding: 1.25rem 2rem;
-    font-size: 11px;
-    color: rgba(255,255,255,0.4);
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-  }
+  .sobre-info { display: flex; flex-direction: column; gap: 12px; }
 
+  .info-row { display: flex; align-items: flex-start; gap: 12px; padding: 16px; background: rgba(255,255,255,0.08); border-radius: 6px; transition: background 0.2s, transform 0.2s; }
+  .info-row:hover { background: rgba(255,255,255,0.13); transform: translateX(4px); }
+
+  .info-icon { width: 36px; height: 36px; background: rgba(255,255,255,0.15); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 11px; font-weight: 700; }
+  .info-label { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.5); margin-bottom: 3px; }
+  .info-val { font-size: 14px; color: var(--branco); font-weight: 400; }
+
+  /* ===== FOOTER CTA ===== */
+  .footer-cta { background: var(--cinza); border-top: 1px solid var(--cinza-medio); padding: 4rem 2rem; text-align: center; }
+  .footer-cta h3 { font-family: 'Montserrat', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--roxo); margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+  .footer-cta p { color: var(--cinza-texto); font-size: 14px; margin-bottom: 1.75rem; }
+
+  footer { background: var(--roxo); text-align: center; padding: 1.25rem 2rem; font-size: 11px; color: rgba(255,255,255,0.4); font-family: 'Montserrat', sans-serif; font-weight: 500; letter-spacing: 0.05em; }
   footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
 
+  /* ===== FADE-UP ===== */
+  .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .fade-up.vis { opacity: 1; transform: none; }
+
+  /* ===== TILT 3D CARDS ===== */
+  .tilt-3d { transform-style: preserve-3d; transition: transform 0.1s linear; will-change: transform; }
+
+  /* ===== RESPONSIVE ===== */
   @media (max-width: 640px) {
     .numeros-grid { grid-template-columns: 1fr 1fr; }
     .proj-grid { grid-template-columns: 1fr; }
     .proj-card.destaque { grid-template-columns: 1fr; }
     .sobre-inner { grid-template-columns: 1fr; }
     .hero h1 { font-size: 2rem; }
+    .sobre-foto { width: 160px; height: 160px; }
   }
-
-  .fade-up {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.55s ease, transform 0.55s ease;
-  }
-  .fade-up.vis { opacity: 1; transform: none; }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo">
-    LEANDRO
-    <span>candidatura · analista de sistema e projetos</span>
+<!-- ===== INTRO OVERLAY ===== -->
+<div id="intro-overlay">
+  <div class="intro-particles" id="intro-particles"></div>
+  <div class="intro-logo-wrap">
+    <img
+      src="https://res.cloudinary.com/dhu1cqvrb/image/upload/v1779967382/image-Picsart-AiImageEnhancer__83_-removebg-preview_fpiwpx.png"
+      alt="Lukka"
+      class="intro-logo"
+    />
+    <div class="intro-tagline">Candidatura · Analista de Sistema e Projetos</div>
+    <div class="intro-bar"></div>
   </div>
-  <a href="mailto:leandroandrade020797@gmail.com?subject=Candidatura — Analista de Sistema e Projetos | Leandro" class="nav-cta">Entrar em contato</a>
+</div>
+
+<!-- ===== PAGE CONTENT ===== -->
+<div id="page-content">
+
+<nav id="main-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-text">LEANDRO</span>
+    <span class="nav-logo-sub">&nbsp;· analista de sistema e projetos</span>
+  </div>
+  <a href="mailto:leandroandrade020797@gmail.com?subject=Candidatura Lukka — Leandro Andrade" class="nav-cta">Falar comigo</a>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
+  <div class="hero-grid-3d"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
   <div class="hero-inner">
     <h1>Automação,<br>infraestrutura<br>e resultado real.</h1>
     <p class="hero-sub">
-      Trabalho com <strong>n8n, Docker, PostgreSQL, APIs REST e DigitalOcean</strong> no dia a dia. Não só como requisito de vaga — como ferramenta de produção, com projetos rodando agora.
+      Me candidato à vaga de Analista de Sistema e Projetos na Lukka. Trabalho com <strong>n8n, Docker, PostgreSQL, APIs REST e DigitalOcean</strong> em produção — não como conhecimento teórico, mas com projetos rodando agora.
     </p>
     <div class="hero-actions">
-      <a href="mailto:rh@lukka.com.br?subject=Candidatura — Analista de Sistema e Projetos | Leandro" class="btn-branco">Enviar candidatura</a>
-      <a href="https://www.leanttro.com" target="_blank" class="btn-outline-branco">Ver meu trabalho →</a>
+      <a href="https://wa.me/5511913324827?text=Ol%C3%A1%20Leandro%2C%20vi%20sua%20candidatura%20para%20a%20Lukka!" target="_blank" class="btn-branco" style="display:inline-flex;align-items:center;gap:8px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chamar no WhatsApp
+      </a>
     </div>
   </div>
 </div>
@@ -644,12 +813,12 @@
   <div class="numeros-grid">
     <div class="numero-item">
       <span class="numero-projeto">feirasderua.com.br</span>
-      <div class="numero-val">328K</div>
+      <div class="numero-val" data-count="328" data-suffix="K">0K</div>
       <div class="numero-label">impressões orgânicas em 5 meses</div>
     </div>
     <div class="numero-item">
       <span class="numero-projeto">feirasderua.com.br</span>
-      <div class="numero-val">8.1K</div>
+      <div class="numero-val" data-count="8.1" data-suffix="K">0K</div>
       <div class="numero-label">usuários ativos por mês</div>
     </div>
     <div class="numero-item">
@@ -659,7 +828,7 @@
     </div>
     <div class="numero-item">
       <span class="numero-projeto">leanttro.com</span>
-      <div class="numero-val">6+</div>
+      <div class="numero-val" data-count="6" data-suffix="+">0+</div>
       <div class="numero-label">projetos ativos em produção</div>
     </div>
   </div>
@@ -674,103 +843,62 @@
   <p class="section-desc">Clique em cada item para ver como uso na prática.</p>
 
   <div class="stack-list">
-
     <div class="stack-item match" onclick="toggle(this)">
       <div class="stack-header">
-        <div class="stack-left">
-          <span class="stack-dot"></span>
-          <span class="stack-nome">n8n</span>
-          <span class="stack-tipo">Requisito</span>
-        </div>
+        <div class="stack-left"><span class="stack-dot"></span><span class="stack-nome">n8n</span><span class="stack-tipo">Requisito</span></div>
         <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="stack-body"><div class="stack-body-inner">Uso n8n como o centro das automações dos meus projetos — captura de leads, notificações, sincronização entre plataformas, fluxos de onboarding. Já criei e vendo automações prontas na Leanttro.</div></div>
     </div>
-
     <div class="stack-item match" onclick="toggle(this)">
       <div class="stack-header">
-        <div class="stack-left">
-          <span class="stack-dot"></span>
-          <span class="stack-nome">APIs REST</span>
-          <span class="stack-tipo">Requisito</span>
-        </div>
+        <div class="stack-left"><span class="stack-dot"></span><span class="stack-nome">APIs REST</span><span class="stack-tipo">Requisito</span></div>
         <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="stack-body"><div class="stack-body-inner">Integro APIs de terceiros no dia a dia: Google, WhatsApp Business, plataformas de pagamento, CRMs. Construo e consumo endpoints REST para conectar sistemas que não conversam nativamente.</div></div>
     </div>
-
     <div class="stack-item match" onclick="toggle(this)">
       <div class="stack-header">
-        <div class="stack-left">
-          <span class="stack-dot"></span>
-          <span class="stack-nome">Docker</span>
-          <span class="stack-tipo">Requisito</span>
-        </div>
+        <div class="stack-left"><span class="stack-dot"></span><span class="stack-nome">Docker</span><span class="stack-tipo">Requisito</span></div>
         <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="stack-body"><div class="stack-body-inner">Toda a minha infraestrutura roda em Docker. Gerencio containers com Dokploy e Docker Swarm — 6 projetos simultâneos em produção, cada um com seus serviços isolados.</div></div>
     </div>
-
     <div class="stack-item match" onclick="toggle(this)">
       <div class="stack-header">
-        <div class="stack-left">
-          <span class="stack-dot"></span>
-          <span class="stack-nome">PostgreSQL</span>
-          <span class="stack-tipo">Requisito</span>
-        </div>
+        <div class="stack-left"><span class="stack-dot"></span><span class="stack-nome">PostgreSQL</span><span class="stack-tipo">Requisito</span></div>
         <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="stack-body"><div class="stack-body-inner">Banco de dados dos meus projetos principais. Estruturo tabelas, escrevo queries, faço backups e gerencio conexões. No Feiras de Rua, todo o catálogo de feiras vive num Postgres containerizado.</div></div>
     </div>
-
     <div class="stack-item match" onclick="toggle(this)">
       <div class="stack-header">
-        <div class="stack-left">
-          <span class="stack-dot"></span>
-          <span class="stack-nome">Webhooks</span>
-          <span class="stack-tipo">Requisito</span>
-        </div>
+        <div class="stack-left"><span class="stack-dot"></span><span class="stack-nome">Webhooks</span><span class="stack-tipo">Requisito</span></div>
         <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="stack-body"><div class="stack-body-inner">Configuro e monitoro webhooks para disparar fluxos automáticos — entrada de lead, pagamento confirmado, formulário enviado. É a cola entre sistemas externos e o n8n.</div></div>
     </div>
-
     <div class="stack-item match" onclick="toggle(this)">
       <div class="stack-header">
-        <div class="stack-left">
-          <span class="stack-dot"></span>
-          <span class="stack-nome">DigitalOcean / VPS</span>
-          <span class="stack-tipo">Requisito</span>
-        </div>
+        <div class="stack-left"><span class="stack-dot"></span><span class="stack-nome">DigitalOcean / VPS</span><span class="stack-tipo">Requisito</span></div>
         <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="stack-body"><div class="stack-body-inner">Hospedo e gerencio minha infraestrutura inteira em Droplets da DigitalOcean. Configuro DNS, SSL, Traefik como proxy reverso e faço manutenção dos servidores sem depender de painel de hospedagem.</div></div>
     </div>
-
     <div class="stack-item match dif" onclick="toggle(this)">
       <div class="stack-header">
-        <div class="stack-left">
-          <span class="stack-dot"></span>
-          <span class="stack-nome">Typebot</span>
-          <span class="stack-tipo">Diferencial</span>
-        </div>
+        <div class="stack-left"><span class="stack-dot"></span><span class="stack-nome">Typebot</span><span class="stack-tipo">Diferencial</span></div>
         <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="stack-body"><div class="stack-body-inner">Uso Typebot para criar chatbots de captura e qualificação de leads — integrado ao n8n via webhook. Já entrego isso como produto na Leanttro para clientes de pequenas empresas.</div></div>
     </div>
-
     <div class="stack-item match dif" onclick="toggle(this)">
       <div class="stack-header">
-        <div class="stack-left">
-          <span class="stack-dot"></span>
-          <span class="stack-nome">IA aplicada</span>
-          <span class="stack-tipo">Diferencial</span>
-        </div>
+        <div class="stack-left"><span class="stack-dot"></span><span class="stack-nome">IA aplicada</span><span class="stack-tipo">Diferencial</span></div>
         <svg class="stack-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="stack-body"><div class="stack-body-inner">Uso IA (GPT, Claude) como parte do fluxo de trabalho — geração de conteúdo automatizada, triagem de dados, assistentes integrados ao n8n. Não é experimento: está em produção nos projetos.</div></div>
     </div>
-
   </div>
 </section>
 
@@ -783,25 +911,15 @@
   <p class="section-desc">Produtos criados do zero, com automação, banco de dados e infraestrutura própria. Resultado mensurável.</p>
 
   <div class="proj-grid">
-
-    <a href="https://www.feirasderua.com.br" target="_blank" class="proj-card destaque">
+    <a href="https://www.feirasderua.com.br" target="_blank" class="proj-card destaque tilt-3d">
       <div>
         <p class="proj-tag">Hub de conteúdo local</p>
         <p class="proj-nome">Feiras de Rua SP</p>
         <p class="proj-desc">Hub de feiras livres de São Paulo criado do zero. Automações para curadoria de conteúdo, SEO técnico e banco de dados próprio. Sem anúncio pago, sem equipe.</p>
         <div class="proj-stats">
-          <div>
-            <span class="proj-stat-val">328K</span>
-            <span class="proj-stat-label">impressões</span>
-          </div>
-          <div>
-            <span class="proj-stat-val">7.4K</span>
-            <span class="proj-stat-label">cliques orgânicos</span>
-          </div>
-          <div>
-            <span class="proj-stat-val">5m</span>
-            <span class="proj-stat-label">desde o zero</span>
-          </div>
+          <div><span class="proj-stat-val">328K</span><span class="proj-stat-label">impressões</span></div>
+          <div><span class="proj-stat-val">7.4K</span><span class="proj-stat-label">cliques orgânicos</span></div>
+          <div><span class="proj-stat-val">5m</span><span class="proj-stat-label">desde o zero</span></div>
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:12px;">
@@ -815,21 +933,18 @@
         </div>
       </div>
     </a>
-
-    <a href="https://www.guiadorodizio.com.br" target="_blank" class="proj-card">
+    <a href="https://www.guiadorodizio.com.br" target="_blank" class="proj-card tilt-3d">
       <p class="proj-tag">Hub de nicho · testável agora</p>
       <p class="proj-nome">Guia do Rodízio SP</p>
       <p class="proj-desc">559 restaurantes cadastrados em 4 dias. Ranqueou acima do Reddit no Google em menos de 24h do lançamento.</p>
       <span class="proj-link">Abrir e testar →</span>
     </a>
-
-    <a href="https://www.leanttro.com" target="_blank" class="proj-card">
+    <a href="https://www.leanttro.com" target="_blank" class="proj-card tilt-3d">
       <p class="proj-tag">Produto próprio</p>
       <p class="proj-nome">Leanttro</p>
       <p class="proj-desc">Agência de sites e automações para pequenas empresas. Infra própria com Dokploy, Docker Swarm, PostgreSQL e n8n rodando 6 projetos em simultâneo.</p>
       <span class="proj-link">Ver site →</span>
     </a>
-
   </div>
 </section>
 
@@ -842,8 +957,7 @@
   <p class="section-desc">Editores de personalização de produtos e CRM com IA — desenvolvidos para o mercado de brindes e customização. Exatamente o que a Lukka faz.</p>
 
   <div class="proj-grid">
-
-    <div class="proj-card" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
+    <div class="proj-card tilt-3d" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
       <p class="proj-tag" style="color:#b45309;">Editor web · demo disponível</p>
       <p class="proj-nome" style="color:#92400e;">Editor de Serigrafia</p>
       <p class="proj-desc">Ferramenta web para simulação e posicionamento de arte em serigrafia. Faz separação de cores automaticamente via SVG. O cliente sobe a logo, posiciona na peça e exporta o arquivo pronto para produção.</p>
@@ -852,8 +966,7 @@
       </div>
       <a href="https://grafica.leanttro.com/serigrafia" target="_blank" class="proj-link" style="color:#b45309;border-color:rgba(180,83,9,0.3);">Testar o editor →</a>
     </div>
-
-    <div class="proj-card" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
+    <div class="proj-card tilt-3d" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
       <p class="proj-tag" style="color:#b45309;">Editor web · demo disponível</p>
       <p class="proj-nome" style="color:#92400e;">Editor de DTF</p>
       <p class="proj-desc">Editor de arte para impressão DTF (Direct to Film). Posicionamento de estampas, controle de área de impressão e geração de arquivo para a máquina.</p>
@@ -862,8 +975,7 @@
       </div>
       <a href="https://grafica.leanttro.com/dtf" target="_blank" class="proj-link" style="color:#b45309;border-color:rgba(180,83,9,0.3);">Testar o editor →</a>
     </div>
-
-    <div class="proj-card" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
+    <div class="proj-card tilt-3d" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
       <p class="proj-tag" style="color:#b45309;">Editor web · demo disponível</p>
       <p class="proj-nome" style="color:#92400e;">Editor de Mouse Pad</p>
       <p class="proj-desc">Editor online para personalização de mouse pads. Upload de imagem, ajuste de enquadramento, exportação em alta resolução para gráfica.</p>
@@ -872,21 +984,18 @@
       </div>
       <a href="https://grafica.leanttro.com/mousepad" target="_blank" class="proj-link" style="color:#b45309;border-color:rgba(180,83,9,0.3);">Testar o editor →</a>
     </div>
-
-    <div class="proj-card" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
+    <div class="proj-card tilt-3d" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
       <p class="proj-tag" style="color:#b45309;">Aplicação Python · IA integrada</p>
       <p class="proj-nome" style="color:#92400e;">CRM + Sniper com IA</p>
       <p class="proj-desc">CRM próprio com módulo de prospecção inteligente, IA (Groq) para análise de leads, disparo de e-mails automatizados e geração de relatórios em PDF.</p>
       <span class="proj-link" style="color:#b45309;border-color:rgba(180,83,9,0.3);">Demo sob solicitação</span>
     </div>
-
-    <div class="proj-card" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
+    <div class="proj-card tilt-3d" style="border-color:rgba(180,83,9,0.2);background:#fffbf5;">
       <p class="proj-tag" style="color:#b45309;">Streamlit + Groq + PostgreSQL</p>
       <p class="proj-nome" style="color:#92400e;">Gerador de Conteúdo com IA</p>
       <p class="proj-desc">Ferramenta interna que gera posts completos de blog a partir de um tema, revisa o conteúdo com IA (Groq), cola a imagem e publica direto no banco PostgreSQL — sem intervenção manual.</p>
       <span class="proj-link" style="color:#b45309;border-color:rgba(180,83,9,0.3);">Demo sob solicitação</span>
     </div>
-
   </div>
 
   <div style="margin-top:1.5rem;padding:1.25rem 1.5rem;background:var(--roxo-claro);border-radius:8px;border-left:3px solid var(--roxo);">
@@ -897,37 +1006,51 @@
 
 <!-- SOBRE -->
 <div class="sobre-wrap">
+  <div class="sobre-mesh"></div>
+  <div class="sobre-orb sobre-orb-1"></div>
+  <div class="sobre-orb sobre-orb-2"></div>
   <div class="sobre-inner">
-    <div>
-      <h2>Quem faz isso<br>por dentro.</h2>
-      <p>Sou o Leandro, fundador da Leanttro. Trabalho na interseção entre <strong>automação, infraestrutura e produto</strong> — construindo e mantendo sistemas que funcionam sem supervisão constante.</p>
-      <p>Acredito que a melhor tecnologia é a que <strong>entrega resultado mensurável</strong>. E é exatamente isso que aparece nos números acima.</p>
-      <p>Tenho facilidade com <strong>análise de dados e visualização</strong> — o que me ajuda a transformar métricas em decisões rápidas. Em 2025, concluí <strong>6 cursos no SENAI</strong> para aprofundar a base técnica e manter o conhecimento atualizado.</p>
+    <div class="sobre-text-block fade-up">
+      <div class="sobre-foto-container">
+        <div class="sobre-foto-wrap">
+          <img
+            src="https://res.cloudinary.com/dhu1cqvrb/image/upload/v1779967377/113956647_an07bm.jpg"
+            alt="Leandro Andrade"
+            class="sobre-foto"
+          />
+        </div>
+      </div>
+      <h2>Leandro Andrade</h2>
+      <p>Trabalho na interseção entre <strong>automação, infraestrutura e produto</strong>. Tenho facilidade com <strong>análise de dados</strong> — transformo métricas em decisões rápidas. Em 2025 concluí <strong>6 cursos no SENAI</strong> para manter a base técnica afiada.</p>
+      <a href="https://drive.google.com/file/d/1ZMIPPik9ixbzxlGA-_Ldmd6NHVRjKFv6/view?usp=sharing" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:1.25rem;background:rgba(255,255,255,0.12);color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;padding:11px 20px;border-radius:6px;text-decoration:none;border:1.5px solid rgba(255,255,255,0.25);transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Baixar Currículo em PDF
+      </a>
     </div>
-    <div class="sobre-info">
+    <div class="sobre-info fade-up">
       <div class="info-row">
-        <div class="info-icon" style="font-size:11px;font-weight:700;letter-spacing:-0.5px;">SP</div>
+        <div class="info-icon" style="font-size:11px;font-weight:700;letter-spacing:-0.5px;color:#fff;">SP</div>
         <div>
           <div class="info-label">Localização</div>
           <div class="info-val">São Paulo — SP<br><span style="font-size:12px;color:rgba(255,255,255,0.5);">Disponível presencialmente em Higienópolis</span></div>
         </div>
       </div>
       <div class="info-row">
-        <div class="info-icon" style="font-size:11px;font-weight:700;">EDU</div>
+        <div class="info-icon" style="font-size:11px;font-weight:700;color:#fff;">EDU</div>
         <div>
           <div class="info-label">Formação</div>
           <div class="info-val">6 cursos SENAI · 2025<br><span style="font-size:12px;color:rgba(255,255,255,0.5);">Análise de dados e tecnologia</span></div>
         </div>
       </div>
       <div class="info-row">
-        <div class="info-icon" style="font-size:11px;font-weight:700;">PJ</div>
+        <div class="info-icon" style="font-size:11px;font-weight:700;color:#fff;">PJ</div>
         <div>
           <div class="info-label">Disponibilidade</div>
           <div class="info-val">Imediata · PJ ou CLT</div>
         </div>
       </div>
       <div class="info-row">
-        <div class="info-icon" style="font-size:13px;font-weight:700;">@</div>
+        <div class="info-icon" style="font-size:13px;font-weight:700;color:#fff;">@</div>
         <div>
           <div class="info-label">Contato</div>
           <div class="info-val">leandroandrade020797@gmail.com<br><span style="font-size:12px;color:rgba(255,255,255,0.5);">(11) 91332-4827</span></div>
@@ -939,10 +1062,16 @@
 
 <!-- FOOTER CTA -->
 <div class="footer-cta">
-  <h3>Vamos conversar?</h3>
-  <p>Mande um e-mail ou acesse o meu site para conhecer mais do trabalho.</p>
-  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-    <a href="mailto:leandroandrade020797@gmail.com?subject=Candidatura — Analista de Sistema e Projetos | Leandro" class="nav-cta">Enviar candidatura</a>
+  <div style="display:inline-block;background:var(--roxo-tag);color:var(--roxo);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.18em;padding:5px 14px;border-radius:100px;margin-bottom:1rem;">Candidato</div>
+  <h3>Leandro Andrade</h3>
+  <p style="margin-bottom:0.25rem;">Analista de Sistema e Projetos · disponível imediatamente</p>
+  <p>Me chama pelo WhatsApp ou manda um e-mail — estou pronto pra conversar.</p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.75rem;">
+    <a href="https://wa.me/5511913324827?text=Ol%C3%A1%20Leandro%2C%20vi%20sua%20candidatura%20para%20a%20Lukka!" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;padding:12px 24px;border-radius:4px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='#1ebe5d';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#25d366';this.style.transform=''">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+    <a href="mailto:leandroandrade020797@gmail.com?subject=Candidatura Lukka — Leandro Andrade" class="nav-cta">Enviar e-mail</a>
     <a href="https://www.leanttro.com" target="_blank" style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;color:var(--roxo);padding:10px 22px;border-radius:4px;border:1.5px solid var(--cinza-medio);text-decoration:none;background:var(--branco);transition:all 0.2s;">Ver leanttro.com →</a>
   </div>
 </div>
@@ -951,15 +1080,105 @@
   feito por <a href="https://www.leanttro.com" target="_blank">leanttro.com</a> &nbsp;·&nbsp; candidatura lukka 2026
 </footer>
 
-<script>
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</div><!-- end #page-content -->
 
-  function toggle(el) {
-    el.classList.toggle('open');
+<script>
+// ===== INTRO ANIMATION =====
+(function() {
+  // Generate particles
+  const container = document.getElementById('intro-particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'intro-particle';
+    const size = Math.random() * 6 + 2;
+    p.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      left: ${Math.random() * 100}%;
+      animation-duration: ${Math.random() * 4 + 4}s;
+      animation-delay: ${Math.random() * 4}s;
+      opacity: ${Math.random() * 0.6 + 0.2};
+    `;
+    container.appendChild(p);
   }
+
+  // Dismiss intro after 2.6s
+  setTimeout(() => {
+    const overlay = document.getElementById('intro-overlay');
+    const page = document.getElementById('page-content');
+    overlay.classList.add('done');
+    page.classList.add('visible');
+    setTimeout(() => { overlay.style.display = 'none'; }, 900);
+  }, 2600);
+})();
+
+// ===== SCROLL EFFECTS =====
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ===== FADE-UP OBSERVER =====
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+// ===== ACCORDION =====
+function toggle(el) { el.classList.toggle('open'); }
+
+// ===== COUNT-UP NUMBERS =====
+const countObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    if (!target) return;
+    const isDecimal = String(target).includes('.');
+    let start = 0;
+    const duration = 1400;
+    const step = 16;
+    const increment = target / (duration / step);
+    let current = 0;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+      }
+      el.textContent = (isDecimal ? current.toFixed(1) : Math.floor(current)) + suffix;
+    }, step);
+    countObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
+
+// ===== 3D TILT ON CARDS =====
+document.querySelectorAll('.tilt-3d').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-4px) scale(1.01)`;
+    // update radial gradient mouse position
+    card.style.setProperty('--mouse-x', ((e.clientX - rect.left) / rect.width * 100) + '%');
+    card.style.setProperty('--mouse-y', ((e.clientY - rect.top) / rect.height * 100) + '%');
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// ===== HERO PARALLAX =====
+const heroGrid = document.querySelector('.hero-grid-3d');
+document.querySelector('.hero').addEventListener('mousemove', e => {
+  if (!heroGrid) return;
+  const rect = document.querySelector('.hero').getBoundingClientRect();
+  const x = (e.clientX - rect.left) / rect.width - 0.5;
+  const y = (e.clientY - rect.top) / rect.height - 0.5;
+  heroGrid.style.transform = `perspective(600px) rotateX(${40 + y * 6}deg) rotateY(${x * 4}deg) scale(1.6) translateY(10%)`;
+});
 </script>
 </body>
 </html>
